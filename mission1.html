@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .background {
+            background-color: rgb(172,216,230);
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signupBackground {
+            width: 40%;
+            height: 80%;
+            margin: 20px;
+            border-radius: 4px;
+            background-color: rgb(223, 240, 245);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup{
+            width: 40%;
+            height: 100%;
+            text-align: left;
+        }
+        .signupTitle {
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10%;
+        }
+        button {
+            background-color: rgb(128, 128, 128);
+            width: 80%;
+            height: 50px;
+            margin-top: 15px;
+            border-radius: 4px;
+            border: 0px solid white;
+            color: white;
+        }
+        input {
+            width: 100%;
+            border-radius: 4px;
+            border: 3px solid white;
+            background-color: rgb(223, 240, 245);
+            padding: 8px;
+            
+            height: 25px;
+        }
+        .button {
+            text-align: center;
+        }
+        .successMessage {
+            display: none;
+            font-size: 12px;
+            color: green;
+        }
+        .failureMessage {
+            display: none;
+            font-size: 12px;
+            color: red;
+        }
+
+
+
+        .modalBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal {
+            background-color: white;
+            padding: 25px;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .modalTitle {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .modal p {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="signupBackground">
+            <div class="signup">
+                <div class="signupTitle">
+                    <p>회원가입</p>
+                    <hr style="color: white; border: 1px solid;">
+                </div>
+                <form id="signupForm">
+                    <div class="name">
+                        <p>이름</p>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div class="successMessage" id="successName">멋진 이름이네요!</div>
+                    <div class="failureMessage" id="failureName">필수 입력 항목입니다!</div>
+
+                    <div class="email">
+                        <p>이메일</p>
+                        <input type="email" name="email" id="email">
+                    </div>
+                    <div class="successMessage" id="successEmail">올바른 이메일 형식입니다!</div>
+                    <div class="failureMessage" id="failureEmail">올바른 이메일 형식이 아닙니다!</div>
+                    
+                    <div class="age">
+                        <p>나이</p>
+                        <input type="text" name="age" id="age"> 
+                    </div>
+                    <div class="successMessage" id="successAge">올바른 나이 형식입니다.</div>
+                    <div class="failureMessage" id="failureAge">나이를 입력해주세요!</div>
+                    <div class="failureMessage" id="failureAgeType">나이는 숫자 형식이어야 합니다!</div>
+                    <div class="failureMessage" id="failureAgeNegative">나이는 음수가 될 수 없습니다!</div>
+                    <div class="failureMessage" id="failureAgeDecimal">나이는 소수가 될 수 없습니다!</div>
+                    <div class="failureMessage" id="failureAgeMinor">미성년자는 가입할 수 없습니다.</div>
+                    
+                    
+                    <div class="password">
+                        <p>비밀번호</p>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <div class="successMessage" id="successPassword">올바른 비밀번호입니다!</div>
+                    <div class="failureMessage" id="failurePasswordMin">비밀번호는 최소 4자리 이상이어야 합니다.</div>
+                    <div class="failureMessage" id="failurePasswordMax">비밀번호는 최대 12자리까지 가능합니다.</div>
+                    <div class="failureMessage" id="failurePasswordRegular">영어, 숫자, 특수문자를 모두 조합해야 합니다!</div>
+                    
+                    <div class="confirmPassword">
+                        <p>비밀번호확인</p>
+                        <input type="password" name="confirmPassword" id="confirmPassword">
+                    </div>
+                    <div class="successMessage" id="successConfirmPassword">비밀번호가 일치합니다.</div>
+                    <div class="failureMessage" id="failureConfirmPassword">비밀번호가 일치하지 않습니다.</div>
+                    
+                    <div class="button">
+                        <button type="submit" id="submitButton" disabled="disabled" >가입하기</button>
+                        <div class="modalBackground" style="display: none;">
+                            <div class="modal">
+                                <div class="modalTitle">가입 성공!</div>
+                                <p>UMC 챌린저 가입을 축하합니다!</p>
+                                <div class="closeButton">
+                                    <button id="closeButton" onclick="Modal(id)">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        let n = false;
+        let e = false;
+        let a = false;
+        let p = false;
+        let c = false;
+        
+        const name = document.getElementById("name");
+        const successName = document.getElementById("successName");
+        const failureName = document.getElementById("failureName");
+
+        name.addEventListener('input', function() {
+            if (name.value === '') {
+                successName.style.display = 'none';
+                failureName.style.display = 'block';
+                n = false;
+            }else {
+                successName.style.display = 'block';
+                failureName.style.display = 'none';
+                n = true;
+                join();
+            }
+        });
+       
+        const email = document.getElementById("email");
+        const successEmail = document.getElementById("successEmail");
+        const failureEmail = document.getElementById("failureEmail");
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        email.addEventListener('input', function() {
+            if (!emailPattern.test(email.value)) {
+                successEmail.style.display = 'none';
+                failureEmail.style.display = 'block';
+                e = false;
+            }else {
+                successEmail.style.display = 'block';
+                failureEmail.style.display = 'none';
+                e = true;
+                join();
+            }
+        });
+
+        const age = document.getElementById("age");
+        const successAge = document.getElementById("successAge");
+        const failureAge = document.getElementById("failureAge");
+        const failureAgeType = document.getElementById("failureAgeType");
+        const failureAgeNegative = document.getElementById("failureAgeNegative");
+        const failureAgeDecimal = document.getElementById("failureAgeDecimal");
+        const failureAgeMinor = document.getElementById("failureAgeMinor");
+        var age_valid_txt = /(?=[.])/;
+
+        age.addEventListener('input', function() {
+            const ageValue = parseInt(age.value)
+            if (age.value === '') {
+                successAge.style.display = 'none';
+                failureAge.style.display = 'block';
+                failureAgeType.style.display = 'none';
+                failureAgeNegative.style.display = 'none';
+                failureAgeDecimal.style.display = 'none';
+                failureAgeMinor.style.display = 'none';
+                a = false;
+            }else if (isNaN(ageValue)) {
+                successAge.style.display = 'none';
+                failureAge.style.display = 'none';
+                failureAgeType.style.display = 'block';
+                failureAgeNegative.style.display = 'none';
+                failureAgeDecimal.style.display = 'none';
+                failureAgeMinor.style.display = 'none';
+                a = false;
+            }else if (ageValue < 0) {
+                successAge.style.display = 'none';
+                failureAge.style.display = 'none';
+                failureAgeType.style.display = 'none';
+                failureAgeNegative.style.display = 'block';
+                failureAgeDecimal.style.display = 'none';
+                failureAgeMinor.style.display = 'none';
+                a = false;
+            }else if (age_valid_txt.test(age.value)!=false) {
+                successAge.style.display = 'none';
+                failureAge.style.display = 'none';
+                failureAgeType.style.display = 'none';
+                failureAgeNegative.style.display = 'none';
+                failureAgeDecimal.style.display = 'block';
+                failureAgeMinor.style.display = 'none';
+                a = false;
+            }else if (ageValue < 19) {
+                successAge.style.display = 'none';
+                failureAge.style.display = 'none';
+                failureAgeType.style.display = 'none';
+                failureAgeNegative.style.display = 'none';
+                failureAgeDecimal.style.display = 'none';
+                failureAgeMinor.style.display = 'block';
+                a = false;
+            }else {
+                successAge.style.display = 'block';
+                failureAge.style.display = 'none';
+                failureAgeType.style.display = 'none';
+                failureAgeNegative.style.display = 'none';
+                failureAgeDecimal.style.display = 'none';
+                failureAgeMinor.style.display = 'none';
+                a = true;
+                join();
+            }
+        });
+        
+        const password = document.getElementById("password");
+        const successPassword = document.getElementById("successPassword");
+        const failurePasswordMin = document.getElementById("failurePasswordMin");
+        const failurePasswordMax = document.getElementById("failurePasswordMax");
+        const failurePasswordRegular = document.getElementById("failurePasswordRegular");
+        const passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!]).*$/;
+;
+
+        password.addEventListener('input', function() {
+            if (password.value.length < 4) {
+                successPassword.style.display = 'none';
+                failurePasswordMin.style.display = 'block';
+                failurePasswordMax.style.display = 'none';
+                failurePasswordRegular.style.display = 'none';
+                p = false;
+            }else if (password.value.length > 12) {
+                successPassword.style.display = 'none';
+                failurePasswordMin.style.display = 'none';
+                failurePasswordMax.style.display = 'block';
+                failurePasswordRegular.style.display = 'none';
+                p = false;
+            }else if (passwordPattern.test(password.value!=false)) {
+                successPassword.style.display = 'none';
+                failurePasswordMin.style.display = 'none';
+                failurePasswordMax.style.display = 'none';
+                failurePasswordRegular.style.display = 'block';
+                p = false;
+            }else {
+                successPassword.style.display = 'block';
+                failurePasswordMin.style.display = 'none';
+                failurePasswordMax.style.display = 'none';
+                failurePasswordRegular.style.display = 'none';
+                p = true;
+                join();
+            }
+        });
+
+        const confirmPassword = document.getElementById("confirmPassword");
+        const successConfirmPassword = document.getElementById("successConfirmPassword");
+        const failureConfirmPassword = document.getElementById("failureConfirmPassword");
+
+        confirmPassword.addEventListener('input', function() {
+            if (password.value !== confirmPassword.value) {
+                successConfirmPassword.style.display = 'none';
+                failureConfirmPassword.style.display = 'block';
+                c = false;
+            }else {
+                successConfirmPassword.style.display = 'block';
+                failureConfirmPassword.style.display = 'none';
+                c = true;
+                join();
+            }
+        })
+       
+
+        const open = document.getElementById("submitButton");
+        const close = document.getElementById("closeButton");
+        const modal = document.querySelector(".modalBackground");
+        open.onclick = () => {
+            event.preventDefault(); // 폼 제출 방지
+            modal.style.display = "flex";
+        };
+        close.onclick = () => {
+            modal.style.display = "none";
+            
+        };
+
+        function join(){
+            if (n && e && a && p && c){
+                open.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

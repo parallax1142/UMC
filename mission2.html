@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mission2</title>
+
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+        h1 {
+            text-align: center;
+        }
+        input {
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            height: 40px;
+            width: 60%;
+        }
+        .list {
+            display: inline-block;
+            margin-left: 10%;
+            width: 35%;
+            vertical-align: top;
+            text-align: center;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toDoInput = document.querySelector("#toDo");
+            const toDoForm = document.querySelector("#toDoForm");
+            const toDoList = document.querySelector("#toDoList");
+            const doneList = document.querySelector("#done");
+
+            toDoForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const item = document.createElement('div');
+
+                const text = document.createElement('span');
+                text.textContent = toDoInput.value;
+
+                const doneButton = document.createElement('button');
+                doneButton.textContent = '완료';
+
+                doneButton.addEventListener('click', (event) => {
+                    const doneItem = event.currentTarget.parentNode;
+                    toDoList.removeChild(doneItem);     // 해야 할 일에서 항목 삭제
+                    doneItem.removeChild(doneButton);   // 완료 버튼 삭제
+                    doneList.appendChild(doneItem);     // 해낸 일 리스트에 추가
+
+                    // 완료된 일 목록에서 항목을 삭제하는 기능 추가
+                    const removeButton = document.createElement('button');  
+                    removeButton.textContent = '삭제';                          // 삭제 버튼 생성
+                    removeButton.addEventListener('click', (event) => {
+                        const removedItem = event.currentTarget.parentNode;
+                        doneList.removeChild(removedItem);                      // 항목 삭제
+                    });
+                    doneItem.appendChild(removeButton);                         // 삭제 버튼 추가
+                });
+
+                item.appendChild(text);         // item div에 항목 추가
+                item.appendChild(doneButton);   // item div에 버튼 추가
+
+                toDoList.appendChild(item);     // item div를 toDoList에 추가
+                toDoInput.value = '';
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>UMC Study Plan</h1>
+    <hr>
+    <form id="toDoForm">
+        <input type="text" id="toDo">
+    </form>
+    <div class="list">
+        <p>해야 할 일</p>
+        <div id="toDoList">
+            <!-- 할 일 목록이 여기에 추가됩니다 -->
+        </div>
+    </div>
+    <div class="list">
+        <p>해낸 일</p>
+        <div id="done">
+            <!-- 완료된 일 목록이 여기에 추가됩니다 -->
+        </div>
+    </div>
+</body>
+</html>

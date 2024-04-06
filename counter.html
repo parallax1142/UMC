@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2 id="number">0</h2>
+    <button id="increase" onclick="counter(id)">+1</button>
+    <button id="decrease" onclick="counter(id)">-1</button>
+
+    <script>
+        let count = 0;
+
+        function counter(id) {
+            if (id == "increase"){
+                console.log("increase가 클릭됨")
+                count = count + 1;
+                document.getElementById("number").innerText = count;
+            }
+            else if (id == "decrease"){
+                console.log("decrease가 클릭됨")
+                count = count - 1;
+                document.getElementById("number").innerText = count;
+            }
+        }
+    </script>
+</body>
+</html>
