@@ -1,0 +1,23 @@
+body {
+    background-color: aliceblue;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    height: 40px;
+    width: 60%;
+}
+
+.list {
+    display: inline-block;
+    margin-left: 10%;
+    width: 35%;
+    vertical-align: top;
+    text-align: center;
+}
